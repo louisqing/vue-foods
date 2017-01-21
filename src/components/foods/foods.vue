@@ -18,7 +18,8 @@
           </ul>
         </li >
       </ul>
-    </div>  
+    </div> 
+    <cart></cart>    
    </div> 
    
 </template>
@@ -26,6 +27,7 @@
 <script>
   import {mapGetters} from 'vuex'
   import foodItem from './food_item'
+  import cart from 'components/foods/cart/cart'
   import BScroll from 'better-scroll'
 
   export default {
@@ -35,7 +37,8 @@
       }
     },
     components: {
-      foodItem
+      foodItem,
+      cart
     },
     computed: {
       ...mapGetters({
