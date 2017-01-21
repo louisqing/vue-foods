@@ -105,27 +105,7 @@
           }
           .support {
             .icon {
-              display: inline-block;
-              width: 12px;
-              height: 12px;
-              margin-right: 4px;
-              background-size: 12px 12px;
-              background-repeat: no-repeat;
-              &.decrease {
-                @include bg-image('decrease_1');
-              }
-              &.discount {
-                @include bg-image('discount_1');
-              }
-              &.gurantee {
-                @include bg-image('guarantee_1');
-              }
-              &.invoice {
-                @include bg-image('invoice_1');
-              }
-              &.special {
-                @include bg-image('special_1');
-              }
+              @include icon(1);
             }
             .text {
               line-height: 12px;

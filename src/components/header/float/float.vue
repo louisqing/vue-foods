@@ -127,31 +127,11 @@
                 margin-bottom: 0px;
               }
               .icon {
-                display: inline-block;
-                width: 16px;
-                height: 16px;
+                @include icon(2,16px);
                 vertical-align: top;
-                margin-right: 16px;
-                background-size: 16px 16px;
-                background-repeat: no-repeat;
-                &.decrease {
-                  @include bg-image('decrease_2');
-                }
-                &.discount {
-                  @include bg-image('discount_2');
-                }
-                &.gurantee {
-                  @include bg-image('guarantee_2');
-                }
-                &.invoice {
-                  @include bg-image('invoice_2');
-                }
-                &.special {
-                  @include bg-image('special_2');
-                }
               }
               .text {
-                line-height: 12px;
+                line-height: 16px;
                 font-size: 12px;
               }
             }

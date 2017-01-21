@@ -11,9 +11,39 @@
   }
 }
 
+@mixin border-none() {
+  &:after {
+    display: none;
+  }
+}
+
 @mixin bg-image($url) {
   background-image: url($url+"@2x.png");
   @media (-webkit-min-device-pixel-ratio:3), (min-device-pixel-ratio:3){
     background-image: url($url+"@3x.png"); 
   }
+}
+
+@mixin icon($type,$length: 12px) {
+    display: inline-block;
+    width: $length;
+    height: $length;
+    margin-right: 4px;
+    background-size: $length $length;
+    background-repeat: no-repeat;
+    &.decrease {
+      @include bg-image('decrease_'+$type);
+    }
+    &.discount {
+      @include bg-image('discount_'+$type);
+    }
+    &.gurantee {
+      @include bg-image('guarantee_'+$type);
+    }
+    &.invoice {
+      @include bg-image('invoice_'+$type);
+    }
+    &.special {
+      @include bg-image('special_'+$type);
+    }       
 }
