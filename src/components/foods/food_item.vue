@@ -14,16 +14,23 @@
         <span class="sell-price">￥{{food.price}}</span>
         <span class="old-price" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
       </div>
+      <div class="control-wrapper">
+        <cart-control :food="food"></cart-control>
+      </div>
     </div>
   </li>
 </template>
 
 <script>
+  import cartControl from 'components/foods/cart/control'
   export default {
     props: {
       food: {
         type: Object
       }
+    },
+    components: {
+      cartControl
     }
   }
 </script>
@@ -80,6 +87,11 @@
           font-size: 10px;
           color: rgb(147,153,159);
         }
+      }
+      .control-wrapper {
+        position: absolute;
+        right: 0;
+        bottom: 12px;
       }
     }
   }

@@ -1,20 +1,11 @@
 const CHECK_CART = 'check_cart'
-const ADD_FOOD_TO_CART = 'add_food_to_cart'
-const SUB_FOOD_TO_CART = 'sub_add_from_cart'
+const ADD_FOOD = 'add_food_to_cart'
+const DECREASE_FOOD = 'sub_add_from_cart'
 const CLEAR_CART = 'clear_cart'
 
 const state = {
   is_checked: false,
-  line_items: [
-    {
-      quantity: 2,
-      price: 20.0
-    },
-    {
-      quantity: 3,
-      price: 50.0
-    }
-  ]
+  line_items: []
 }
 
 const getters = {
@@ -26,6 +17,12 @@ const actions = {
   getCart({commit}) {
   },
   checkCart({commit}) {
+  },
+  addFood({commit}, food) {
+    commit(ADD_FOOD, food)
+  },
+  decreaseFood({commit}, food) {
+    commit(DECREASE_FOOD, food)
   }
 }
 
@@ -33,10 +30,34 @@ const mutations = {
   [CHECK_CART] (state) {
     state.is_cart_checked = true
   },
-  [ADD_FOOD_TO_CART] (state, food) {
+  [ADD_FOOD] (state, food) {
+    var lineItem = state.line_items.find((lineItem) => {
+      if (lineItem.food.name === food.name) {
+        return lineItem
+      }
+    })
+    if (lineItem) {
+      lineItem.quantity ++
+    } else {
+      state.line_items.push({
+        food: food,
+        quantity: 1
+      })
+    }
   },
-  [SUB_FOOD_TO_CART] (state, food) {
-    // state.
+  [DECREASE_FOOD] (state, food) {
+    var lineItem = state.line_items.find((lineItem) => {
+      if (lineItem.food.name === food.name) {
+        return lineItem
+      }
+    })
+    if (lineItem) {
+      if (lineItem.quantity === 0) {
+        return
+      } else {
+        lineItem.quantity --
+      }
+    }
   },
   [CLEAR_CART] (state, food) {
   }
