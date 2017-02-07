@@ -6,12 +6,6 @@
         <router-link to="/foods">商品</router-link>
       </div>
       <div class="tab-item">
-        <router-link to="/comments">评论</router-link>
-      </div>
-      <div class="tab-item">
-         <router-link to="/restaurant">商家</router-link>
-      </div>
-      <div class="tab-item">
          <router-link to="/orders">订单</router-link>
       </div>
     </div>    

@@ -1,19 +1,21 @@
 <template>
   <div class="cart-control">
     <transition name="move">
-      <div class="food-decrease " v-show="lineItem.quantity > 0" @click="decreaseFoodFromCarat($event)">
+      <div class="food-decrease " v-show="food.quantity > 0" @click.stop.prevent="decreaseFoodFromCart($event)">
         <span class="inner icon-remove_circle_outline">
         </span>
       </div>
     </transition>    
-    <div class="food-count" v-show="lineItem.quantity > 0">{{lineItem.quantity}}</div>
-    <div class="food-add icon-add_circle" @click="addFoodToCart($event)"></div>
+    <div class="food-count" v-show="food.quantity > 0">{{food.quantity}}</div>
+    <div class="food-add icon-add_circle" @click.stop.prevent="addFoodToCart($event)"></div>
   </div>
 </template>
 
 <script>
   import {mapGetters} from 'vuex'
   import eventBus from 'src/event_bus'
+  import {checkFoodInCart} from 'common/js/cart_utils'
+  import Vue from 'vue'
   export default {
     props: {
       food: {
@@ -22,21 +24,12 @@
     },
     computed: {
       ...mapGetters({
-        line_items: 'line_items'
-      }),
-      lineItem() {
-        var lineItem = this.line_items.find((lineItem) => {
-          if (lineItem.food.name === this.food.name) {
-            return lineItem
-          }
-        })
-        if (!lineItem) {
-          lineItem = {
-            food: this.food,
-            quantity: 0
-          }
-        }
-        return lineItem
+        foods: 'selected_foods'
+      })
+    },
+    created() {
+      if (!checkFoodInCart(this.food, this.foods)) {
+        Vue.set(this.food, 'quantity', 0)
       }
     },
     methods: {
@@ -47,7 +40,7 @@
         this.$store.dispatch('addFood', this.food)
         eventBus.$emit('addFoodEvent', event.target)
       },
-      decreaseFoodFromCarat(event) {
+      decreaseFoodFromCart(event) {
         if (!event._constructed) {
           return
         }

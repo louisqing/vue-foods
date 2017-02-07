@@ -14,9 +14,9 @@
 3. 关于vuex从vue1到vue2的个人感觉变化很大,需要大量的修改以前项目的代码
 3. 另外我个人不喜欢stylus所以所有的样式均通过sass来实现
 
-## 2017-01-25 关于加入购物车是小球的动画
+## 2017-01-25 关于加入购物车小球的动画
 具体查看cart组件的ball的动画
-1. 用trainsition-group来做列表动画
-2. 对于v-on:enter,v-on:beforeEnter,v-on:afterEnter的了解
+  1. 用trainsition-group来做列表动画
+  2. 对于v-on:enter,v-on:beforeEnter,v-on:afterEnter的了解
 
 

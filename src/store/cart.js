@@ -1,3 +1,5 @@
+import Vue from 'vue'
+import {checkFoodInCart} from 'common/js/cart_utils'
 const CHECK_CART = 'check_cart'
 const ADD_FOOD = 'add_food_to_cart'
 const DECREASE_FOOD = 'sub_add_from_cart'
@@ -5,11 +7,11 @@ const CLEAR_CART = 'clear_cart'
 
 const state = {
   is_checked: false,
-  line_items: []
+  selected_foods: []
 }
 
 const getters = {
-  line_items: state => state.line_items,
+  selected_foods: state => state.selected_foods,
   is_checked: state => state.is_checked
 }
 
@@ -23,6 +25,9 @@ const actions = {
   },
   decreaseFood({commit}, food) {
     commit(DECREASE_FOOD, food)
+  },
+  emptyCart({commit}) {
+    commit(CLEAR_CART)
   }
 }
 
@@ -31,35 +36,26 @@ const mutations = {
     state.is_cart_checked = true
   },
   [ADD_FOOD] (state, food) {
-    var lineItem = state.line_items.find((lineItem) => {
-      if (lineItem.food.name === food.name) {
-        return lineItem
-      }
-    })
-    if (lineItem) {
-      lineItem.quantity ++
+    let isFoodInCart = checkFoodInCart(food, state.selected_foods)
+    if (isFoodInCart) {
+      food.quantity ++
     } else {
-      state.line_items.push({
-        food: food,
-        quantity: 1
-      })
+      Vue.set(food, 'quantity', 1)
+      state.selected_foods.push(food)
     }
   },
   [DECREASE_FOOD] (state, food) {
-    var lineItem = state.line_items.find((lineItem) => {
-      if (lineItem.food.name === food.name) {
-        return lineItem
-      }
-    })
-    if (lineItem) {
-      if (lineItem.quantity === 0) {
+    let isFoodInCart = checkFoodInCart(food, state.selected_foods)
+    if (isFoodInCart) {
+      if (food.quantity === 0) {
         return
       } else {
-        lineItem.quantity --
+        food.quantity --
       }
     }
   },
-  [CLEAR_CART] (state, food) {
+  [CLEAR_CART] (state) {
+    state.selected_foods = []
   }
 }
 

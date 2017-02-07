@@ -29,6 +29,7 @@ var appData = require('../data.json')
 var seller = appData.seller
 var goods = appData.goods
 var ratings = appData.ratings
+var orders = appData.orders
 
 var apiRoutes = express.Router()
 
@@ -41,6 +42,12 @@ apiRoutes.get('/restaurant', function (req, res) {
 apiRoutes.get('/foods', function (req, res) {
   res.json({
     data: goods
+  })
+})
+
+apiRoutes.get('/orders', function(req, res) {
+  res.json({
+    data: orders
   })
 })
 

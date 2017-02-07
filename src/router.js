@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import foods from 'components/foods/foods'
 import restaurant from 'components/restaurant/restaurant'
-import comments from 'components/comments/comments'
 import orders from 'components/orders/orders'
 
 Vue.use(VueRouter)
@@ -14,9 +13,6 @@ const router = new VueRouter({
     },
     {
       path: '/restaurant', name: '/restaurant', component: restaurant
-    },
-    {
-      path: '/comments', name: '/comments', component: comments
     },
     {
       path: '/orders', name: '/orders', component: orders

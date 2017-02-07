@@ -1,5 +1,5 @@
 <template>
-  <li class="food-item">
+  <li class="food-item" @click="selectFood(food,$event)">
     <div class="avatar">
       <img :src="food.icon" width="57" height="57">
     </div>
@@ -10,10 +10,7 @@
         <span class="month-sell-count">月售{{food.sellCount}}份</span>
         <span v-if="food.rating > 0">好评率{{food.rating}}%</span>
       </div>
-      <div class="price">
-        <span class="sell-price">￥{{food.price}}</span>
-        <span class="old-price" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
-      </div>
+      <price :food="food"></price> 
       <div class="control-wrapper">
         <cart-control :food="food"></cart-control>
       </div>
@@ -23,6 +20,8 @@
 
 <script>
   import cartControl from 'components/foods/cart/control'
+  import price from 'components/foods/food/price'
+  import eventBus from 'src/event_bus'
   export default {
     props: {
       food: {
@@ -30,7 +29,13 @@
       }
     },
     components: {
-      cartControl
+      cartControl,
+      price
+    },
+    methods: {
+      selectFood(item, event) {
+        eventBus.$emit('clickFoodEvent', item, event)
+      }
     }
   }
 </script>
@@ -74,20 +79,7 @@
           margin-right: 12px;
         }
       }
-      .price {
-        font-weight: 700;
-        line-height: 24px;
-        .sell-price {
-          margin-right: 8px;
-          font-size: 14px;
-          color: rgb(240,20,20);
-        }
-        .old-price {
-          text-decoration: line-through;
-          font-size: 10px;
-          color: rgb(147,153,159);
-        }
-      }
+      
       .control-wrapper {
         position: absolute;
         right: 0;

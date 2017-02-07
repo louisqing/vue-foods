@@ -1,6 +1,7 @@
 <template>
+  <div>
   <div class="shopcart">
-    <div class="content">
+    <div class="content" @click="toggleList">
       <div class="content-left">
         <div class="logo-wrapper">
           <div class="logo" :class="{'highlight': totalCount > 0}">
@@ -15,7 +16,7 @@
           另外需要配送费用{{restaurant.deliveryPrice}}元
         </div>
       </div>
-      <div class="content-right">
+      <div class="content-right" @click.stop.prevent="pay">
         <div class="pay" :class="payClass">
           {{payDesc}}
         </div>
@@ -28,11 +29,17 @@
           </div>
         </transition>
       </div>
+      <cart-detail v-show="listShow" :show="listShow"></cart-detail>
+  </div>
+  <transition name="fade">
+    <div class="list-mask" v-show="listShow" @click="hideList"></div>
+  </transition>
   </div>
 </template>
 
 <script>
   import {mapGetters} from 'vuex'
+  import cartDetail from './cart_detail'
   import eventBus from 'src/event_bus'
   export default {
     data() {
@@ -56,25 +63,29 @@
       ]
       return {
         balls,
-        dropBalls: []
+        dropBalls: [],
+        fold: true
       }
+    },
+    components: {
+      cartDetail
     },
     computed: {
       ...mapGetters({
         restaurant: 'restaurant',
-        line_items: 'line_items'
+        foods: 'selected_foods'
       }),
       totalPrice() {
         var total = 0
-        this.line_items.forEach((lineItem) => {
-          total += lineItem.food.price * lineItem.quantity
+        this.foods.forEach((food) => {
+          total += food.price * food.quantity
         })
         return total
       },
       totalCount() {
         var count = 0
-        this.line_items.forEach((lineItem) => {
-          count += lineItem.quantity
+        this.foods.forEach((food) => {
+          count += food.quantity
         })
         return count
       },
@@ -93,8 +104,15 @@
         } else {
           return 'enough'
         }
+      },
+      listShow () {
+        if (this.totalCount === 0) {
+          this.fold = true
+          return false
+        }
+        let show = !this.fold
+        return show
       }
-
     },
     created () {
       eventBus.$on('addFoodEvent', (target) => {
@@ -131,7 +149,6 @@
         })
       },
       afterEnter (el) {
-        console.log('hello world')
         let ball = this.dropBalls.shift()
         if (ball) {
           ball.show = false
@@ -148,6 +165,21 @@
             return
           }
         }
+      },
+      toggleList() {
+        if (!this.totalCount) {
+          return
+        }
+        this.fold = !this.fold
+      },
+      hideList () {
+        this.fold = true
+      },
+      pay() {
+        if (this.totalPrice < this.minPrice) {
+          return
+        }
+        window.alert(`支付${this.totalPrice}`)
       }
     }
   }
@@ -275,5 +307,23 @@
         }
       }
     }
+  }
+  .list-mask {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 40;
+      backdrop-filter: blur(10px);
+      background: rgba(7,17,27,0.6);
+      &.fade-enter-active,&.fade-leave-active {
+        transition: all 0.5s;
+        opacity:1;        
+      }
+      &.fade-enter,&.fade-leave {
+        opacity: 0;
+        background: rgba(7,17,27,0);       
+      }
   }
 </style>

@@ -1,4 +1,5 @@
 <template>
+  <div>
    <div class="foods">
     <div class="foods-type-wrapper" ref="menuWrapper">
       <ul>
@@ -19,17 +20,19 @@
         </li >
       </ul>
     </div> 
-    <cart></cart>    
+    <cart></cart>        
    </div> 
-   
+    <food :food="selectedFood" ref="food"></food>
+  </div> 
 </template>
 
 <script>
   import {mapGetters} from 'vuex'
   import foodItem from './food_item'
   import cart from 'components/foods/cart/cart'
+  import food from './food/food'
   import BScroll from 'better-scroll'
-
+  import eventBus from 'src/event_bus'
   export default {
     props: {
       restaurant: {
@@ -38,7 +41,13 @@
     },
     components: {
       foodItem,
-      cart
+      cart,
+      food
+    },
+    data() {
+      return {
+        selectedFood: {}
+      }
     },
     computed: {
       ...mapGetters({
@@ -62,6 +71,9 @@
       this.$store.dispatch('getFoods', {
         scroll: this._initScroll,
         calHeight: this._calHeight
+      })
+      eventBus.$on('clickFoodEvent', (item, event) => {
+        this.selectFood(item, event)
       })
     },
     methods: {
@@ -94,6 +106,13 @@
         let foodsList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook')
         let el = foodsList[index]
         this.foodsScroll.scrollToElement(el, 300)
+      },
+      selectFood(item, event) {
+        if (!event._constructed) {
+          return
+        }
+        this.selectedFood = item
+        this.$refs.food.show()
       }
     }
   }
