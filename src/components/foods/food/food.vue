@@ -177,7 +177,7 @@
           border-radius: 12px;
           font-size: 10px;
           color: #fff;
-          background: rgb(0,160,220);
+          background: #FE5040;
           &.fade-enter-active {
             transition: all 0.2s;
             opacity: 1;

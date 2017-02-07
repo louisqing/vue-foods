@@ -111,6 +111,7 @@
         if (!event._constructed) {
           return
         }
+        console.log(this.$refs)
         this.selectedFood = item
         this.$refs.food.show()
       }

@@ -5,6 +5,12 @@ import App from './App'
 import router from './router'
 import store from './store'
 import 'common/sass/index.scss'
+import 'mint-ui/lib/style.css'
+import 'src/filters'
+import {Header, Button} from 'mint-ui'
+
+Vue.component(Header.name, Header)
+Vue.component(Button.name, Button)
 
 /* eslint-disable no-new */
 new Vue({

@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="order-button">
-      <span class="order-detail">
+      <span class="order-detail" @click="selectOrder($event)">
         查看详情
       </span>
     </div>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+  import eventBus from 'src/event_bus'
   export default {
     props: {
       order: {
@@ -49,6 +50,11 @@
           totalPrice += food.quantity * food.price
         })
         return totalPrice
+      }
+    },
+    methods: {
+      selectOrder (event) {
+        eventBus.$emit('showOrderDetail', this.order, event)
       }
     }
   }
@@ -115,7 +121,7 @@
           border-radius: 12px;
           font-size: 10px;
           color: #fff;
-          background: rgb(0,160,220);
+          background: #FE5040;
         }
       }
 

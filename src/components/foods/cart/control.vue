@@ -56,7 +56,7 @@
     .food-decrease,.food-add {
       display: inline-block;
       padding: 6px;
-      color: rgb(0,160,220);
+      color: #FE5040;
       transition: all 0.4s linear;
     }
     .food-add {
